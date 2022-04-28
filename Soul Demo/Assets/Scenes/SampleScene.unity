@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5759615700985562165, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -190,6 +194,10 @@ PrefabInstance:
     - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_Name
       value: Platform (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5759615700985562165, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_RootOrder
@@ -331,6 +339,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5759615700985562165, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -460,6 +472,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &527747355 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5747316478639853286, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
+  m_PrefabInstance: {fileID: 5746905810422151211}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &527747356 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 5747316478639853285, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
+  m_PrefabInstance: {fileID: 5746905810422151211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &615360776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -470,6 +492,10 @@ PrefabInstance:
     - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_Name
       value: Platform (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5759615700985562165, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_RootOrder
@@ -921,6 +947,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5759615700985562165, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1205,6 +1235,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5747316478639853284, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
+      propertyPath: rigidbody2d
+      value: 
+      objectReference: {fileID: 527747356}
+    - target: {fileID: 5747316478639853284, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
+      propertyPath: boxCollider2d
+      value: 
+      objectReference: {fileID: 527747355}
+    - target: {fileID: 5747316478639853284, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747316478639853284, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
+      propertyPath: platformsLayerMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747316478639853285, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
+      propertyPath: m_GravityScale
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5747316478639853287, guid: dff0f1181da38c447a050f7d86d1b817, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1265,6 +1315,10 @@ PrefabInstance:
     - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_Name
       value: Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 5759615700985562123, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5759615700985562165, guid: 7b73e431932d07e418bdacff8061a622, type: 3}
       propertyPath: m_RootOrder

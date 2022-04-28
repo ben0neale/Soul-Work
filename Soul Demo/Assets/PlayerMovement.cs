@@ -5,76 +5,56 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody2D RB;
-    public int speed = 100;
-    int jumpSpeed = 0;
-    public Animator anim;
-    bool grounded = true;
-    float jumpTimer = 0f;
+    [SerializeField] public LayerMask platformsLayerMask;
+    public Rigidbody2D rigidbody2d;
+    public BoxCollider2D boxCollider2d;
 
-
-    // Update is called once per frame
+    private void Awake()
+    {
+        rigidbody2d = transform.GetComponent<Rigidbody2D>();
+        boxCollider2d = transform.GetComponent<BoxCollider2D>();
+    }
+    
     void Update()
     {
-        Movement();
-        Jump();
+        if(IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+        {
+            float jumpVelocity = 28f;
+            rigidbody2d.velocity = Vector2.up * jumpVelocity;
+        }
+        HandleMovement();
     }
 
-    private void Jump()
+    
+
+
+    private bool IsGrounded()
     {
-        //if player is on the ground
-        if (grounded)
+        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
+        Debug.Log(raycastHit2d.collider);
+        return raycastHit2d.collider != null;
+    }
+
+    private void HandleMovement()
+    {
+        float moveSpeed = 8f;
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            rigidbody2d.velocity = new Vector2(-moveSpeed, rigidbody2d.velocity.y);
+
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.RightArrow))
             {
-                jumpSpeed = 20;
-                jumpTimer = .2f;
+                rigidbody2d.velocity = new Vector2(+moveSpeed, rigidbody2d.velocity.y);
+            }
+            else
+            {
+                rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
             }
         }
-        if (jumpTimer > 0)
-        {
-            jumpTimer -= Time.deltaTime;
-        }
-        else
-        {
-            jumpSpeed = 0;
-        }
     }
 
-    void Movement()
-    {
-        float x = Input.GetAxis("Horizontal");
-
-        RB.velocity = new Vector3(x * speed, jumpSpeed, 0);
-
-        anim.SetFloat("speed", x);
-
-        if (x < 0)
-        {
-            this.gameObject.transform.localScale = new Vector3(-.2f, .2f, 1);
-        }
-        else
-        {
-            this.gameObject.transform.localScale = new Vector3(.2f, .2f, 1);
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Platform")
-        {
-            grounded = true;
-            print("GROUND");
-        }
-    }
-
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Platform")
-        {
-            grounded = false;
-            print("NO GROUND");
-        }
-    }
+    
 }
