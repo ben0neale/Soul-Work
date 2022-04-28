@@ -11,6 +11,10 @@ public class Death : MonoBehaviour
             Destroy(gameObject);
             Res.instance.Respawn();
         }
+        else if (collision.gameObject.tag == "enemy")
+        {
+            Player.player_ref.TakeDamage();
+        }
 
     }
 }
