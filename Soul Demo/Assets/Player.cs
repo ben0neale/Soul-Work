@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static Player player_ref;
-    int health = 3;
+    public int health = 3;
     public Rigidbody2D RB;
 
     private void Awake()
