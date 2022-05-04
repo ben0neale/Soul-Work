@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] public LayerMask platformsLayerMask;
+    [SerializeField] private TrailRenderer tr;
     public Rigidbody2D rigidbody2d;
     public BoxCollider2D boxCollider2d;
     float dash_timer = .05f;
@@ -74,12 +75,14 @@ public class PlayerMovement : MonoBehaviour
         if (dash_timer > 0)
         {
             dashing = true;
-            rigidbody2d.velocity = new Vector2(100, 0);
+            rigidbody2d.velocity = new Vector2(64, 0);
+            tr.emitting = true;
             dash_timer -= Time.deltaTime;
         }
         else
         {
             dashing = false;
+            tr.emitting = false;
             dash_timer = .05f;
         }
     }
