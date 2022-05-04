@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public LayerMask platformsLayerMask;
     public Rigidbody2D rigidbody2d;
     public BoxCollider2D boxCollider2d;
+    float dash_timer = .05f;
+    bool dashing = false;
 
     private void Awake()
     {
@@ -17,12 +19,20 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        if(IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            dashing = true;
+        }
+        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             float jumpVelocity = 16f;
             rigidbody2d.velocity = Vector2.up * jumpVelocity;
         }
         HandleMovement();
+        if (dashing)
+        {
+            dash();
+        }
     }
 
     
@@ -38,21 +48,39 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovement()
     {
         float moveSpeed = 8f;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (!dashing)
         {
-            rigidbody2d.velocity = new Vector2(-moveSpeed, rigidbody2d.velocity.y);
-
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.LeftArrow))
             {
-                rigidbody2d.velocity = new Vector2(+moveSpeed, rigidbody2d.velocity.y);
+                rigidbody2d.velocity = new Vector2(-moveSpeed, rigidbody2d.velocity.y);
+
             }
             else
             {
-                rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    rigidbody2d.velocity = new Vector2(+moveSpeed, rigidbody2d.velocity.y);
+                }
+                else
+                {
+                    rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
+                }
             }
+        }
+    }
+
+    void dash()
+    {
+        if (dash_timer > 0)
+        {
+            dashing = true;
+            rigidbody2d.velocity = new Vector2(100, 0);
+            dash_timer -= Time.deltaTime;
+        }
+        else
+        {
+            dashing = false;
+            dash_timer = .05f;
         }
     }
 
