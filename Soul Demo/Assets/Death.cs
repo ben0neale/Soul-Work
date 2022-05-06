@@ -4,17 +4,33 @@ using UnityEngine;
 
 public class Death : MonoBehaviour
 {
+    public PlayerMovement pM;
+
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("hazard"))
         {
+            
             Destroy(gameObject);
             Res.instance.Respawn();
         }
-        else if (collision.gameObject.tag == "enemy")
+        if (collision.gameObject.CompareTag("enemy"))
         {
-            Player.player_ref.TakeDamage();
+            if (pM.isDashing)
+            {
+                GameObject Enemy = GameObject.FindGameObjectWithTag("enemy");
+                Destroy(Enemy);
+            }
+            else
+            {
+                Destroy(gameObject);
+                Res.instance.Respawn();
+            }
         }
+
+
 
     }
 }

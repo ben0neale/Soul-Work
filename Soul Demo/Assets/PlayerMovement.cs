@@ -1,91 +1,90 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public LayerMask platformsLayerMask;
+    private float horizontal;
+    private float speed = 8f;
+    private float jumpingPower = 16f;
+    private bool isFacingRight = true;
+
+    private bool canDash = true;
+    public bool isDashing;
+    public float dashingPower = 68f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
+
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
     [SerializeField] private TrailRenderer tr;
-    public Rigidbody2D rigidbody2d;
-    public BoxCollider2D boxCollider2d;
-    float dash_timer = .05f;
-    bool dashing = false;
 
-    private void Awake()
+    private void Update()
     {
-        rigidbody2d = transform.GetComponent<Rigidbody2D>();
-        boxCollider2d = transform.GetComponent<BoxCollider2D>();
+        if (isDashing)
+        {
+            return;
+        }
+
+        horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+        }
+
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+
+        Flip();
     }
-    
-    void Update()
+
+    private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (isDashing)
         {
-            dashing = true;
+            return;
         }
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
-        {
-            float jumpVelocity = 16f;
-            rigidbody2d.velocity = Vector2.up * jumpVelocity;
-        }
-        HandleMovement();
-        if (dashing)
-        {
-            dash();
-        }
+
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
-
-    
-
 
     private bool IsGrounded()
     {
-        RaycastHit2D raycastHit2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size, 0f, Vector2.down, .1f, platformsLayerMask);
-        Debug.Log(raycastHit2d.collider);
-        return raycastHit2d.collider != null;
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
-    private void HandleMovement()
+    private void Flip()
     {
-        float moveSpeed = 8f;
-        if (!dashing)
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                rigidbody2d.velocity = new Vector2(-moveSpeed, rigidbody2d.velocity.y);
-
-            }
-            else
-            {
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    rigidbody2d.velocity = new Vector2(+moveSpeed, rigidbody2d.velocity.y);
-                }
-                else
-                {
-                    rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
-                }
-            }
+            Vector3 localScale = transform.localScale;
+            isFacingRight = !isFacingRight;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
 
-    void dash()
+    private IEnumerator Dash()
     {
-        if (dash_timer > 0)
-        {
-            dashing = true;
-            rigidbody2d.velocity = new Vector2(64, 0);
-            tr.emitting = true;
-            dash_timer -= Time.deltaTime;
-        }
-        else
-        {
-            dashing = false;
-            tr.emitting = false;
-            dash_timer = .05f;
-        }
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
-
-    
 }
