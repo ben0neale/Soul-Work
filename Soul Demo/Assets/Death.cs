@@ -5,6 +5,7 @@ using UnityEngine;
 public class Death : MonoBehaviour
 {
     public PlayerMovement pM;
+    [SerializeField] Transform spawnPoint;
 
 
 
@@ -12,9 +13,8 @@ public class Death : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("hazard"))
         {
-            
-            Destroy(gameObject);
-            Res.instance.Respawn();
+            GameObject Player = GameObject.FindGameObjectWithTag("Player");
+            Player.transform.position = spawnPoint.position;
         }
         if (collision.gameObject.CompareTag("enemy"))
         {
@@ -25,8 +25,8 @@ public class Death : MonoBehaviour
             }
             else
             {
-                Destroy(gameObject);
-                Res.instance.Respawn();
+                GameObject Player = GameObject.FindGameObjectWithTag("Player");
+                Player.transform.position = spawnPoint.position;
             }
         }
 
