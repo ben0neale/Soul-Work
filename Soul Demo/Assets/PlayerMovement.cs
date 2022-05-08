@@ -19,6 +19,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private TrailRenderer tr;
 
+    public Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
     private void Update()
     {
         if (isDashing)
@@ -54,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        anim.SetFloat("speed", Mathf.Abs(horizontal));
     }
 
     private bool IsGrounded()
